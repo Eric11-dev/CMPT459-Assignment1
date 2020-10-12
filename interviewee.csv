@@ -1,0 +1,15 @@
+level,lang,tweets,phd,label
+Senior,Java,no,no,FALSE
+Senior,Java,no,yes,FALSE
+Mid,Python,no,no,TRUE
+Junior,Python,no,no,TRUE
+Junior,R,yes,no,TRUE
+Junior,R,yes,yes,FALSE
+Mid,R,yes,yes,TRUE
+Senior,Python,no,no,FALSE
+Senior,R,yes,no,TRUE
+Junior,Python,yes,no,TRUE
+Senior,Python,yes,yes,TRUE
+Mid,Python,no,yes,TRUE
+Mid,Java,yes,no,TRUE
+Junior,Python,no,yes,FALSE

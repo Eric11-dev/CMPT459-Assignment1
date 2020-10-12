@@ -31,7 +31,7 @@ def partition(data_rows, split_point):
     return true_rows, false_rows
 
 
-def gini(data_rows):
+def gini_imp(data_rows):
     total = len(data_rows)
     counts = class_counts(data_rows)
     imp = 0
@@ -41,16 +41,16 @@ def gini(data_rows):
     return imp
 
 
-def info_gain(left, right, current_uncertainty):
+def get_info_gain(left, right, current_impurity):
     prob = float(len(left)) / (len(left) + len(right))
-    gain = current_uncertainty - prob * gini(left) - (1 - prob) * gini(right)
-    return gain
+    info_gain = current_impurity - prob * gini_imp(left) - (1 - prob) * gini_imp(right)
+    return info_gain
 
 
 def find_best_split(data_rows, percentageOfAttributes):
-    best_gain = 0
+    best_info_gain = 0
     best_split_point = None
-    current_uncertainty = gini(data_rows)
+    current_impurity = gini_imp(data_rows)
 
     columns = []
     while len(columns) < (len(data_rows[0]) - 1) * percentageOfAttributes:
@@ -67,25 +67,22 @@ def find_best_split(data_rows, percentageOfAttributes):
 
             if len(true_rows) == 0 or len(false_rows) == 0:
                 continue
-            gain = info_gain(true_rows, false_rows, current_uncertainty)
-            if gain >= best_gain:
-                best_gain = gain
+            info_gain = get_info_gain(true_rows, false_rows, current_impurity)
+            if info_gain >= best_info_gain:
+                best_info_gain = info_gain
                 best_split_point = split_point
-    return best_gain, best_split_point
+    return best_info_gain, best_split_point
 
 
 def build_tree(data_rows, percentageOfAttributes):
-    gain, split_point = find_best_split(data_rows, percentageOfAttributes)
+    info_gain, split_point = find_best_split(data_rows, percentageOfAttributes)
 
-    if gain == 0:
+    if info_gain == 0:
         return Leaf_node(data_rows)
 
     true_rows, false_rows = partition(data_rows, split_point)
-
     true_branch = build_tree(true_rows, percentageOfAttributes)
-
     false_branch = build_tree(false_rows, percentageOfAttributes)
-
     return DecisionNode(split_point, true_branch, false_branch)
 
 
